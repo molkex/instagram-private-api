@@ -4,9 +4,10 @@
 [![Architecture: Pure HTTP/2 Zero-Device](https://img.shields.io/badge/Architecture-Pure--HTTP%2F2%20Zero--Device-0f172a.svg)](#)
 [![Transport: Mobile TLS 1.3 BoringSSL](https://img.shields.io/badge/Transport-Mobile%20TLS%201.3%20BoringSSL-10b981.svg)](#)
 [![Python: >=3.10](https://img.shields.io/badge/Python->=3.10-3776ab.svg)](#)
+[![TypeScript / Node.js](https://img.shields.io/badge/TypeScript%20%2F%20Node.js-v2.0.0-3178c6.svg)](#)
 [![Telegram Contact](https://img.shields.io/badge/Telegram-@mxmtkchk-229ED9.svg)](https://t.me/mxmtkchk)
 
-**Unofficial Instagram & Threads mobile API SDK for Python.** Talks to the same private
+**Unofficial Instagram & Threads mobile API SDK for Python & TypeScript / Node.js.** Talks to the same private
 endpoints the real Android/iOS app uses — feed, profiles, direct messages, media/reels upload,
 friendships, warmup exploration loops, and Threads keyword search/replies — with full request
 signing (X-IG-Capabilities, X-IG-App-ID, Pigeon/Scribe telemetry, JA4 TLS 1.3 BoringSSL).
@@ -95,14 +96,35 @@ threads.reply(
 )
 ```
 
-```python
-# Custom proxy rotation and hardware preset:
-ig = InstagramAPI(
-    api_key="ig_...",
-    device_preset="pixel_8_pro",
-    proxy="http://user:pass@mobile-node.de:8888",
-    rate_limit=1.5
-)
+### TypeScript / Node.js Quick Start (Modern Dilame Alternative)
+
+Looking for a maintained, production-grade TypeScript / Node.js alternative to `dilame/instagram-private-api`? While Dilame's public library was frozen in early 2024, our SDK provides first-class TypeScript bindings with authentic iOS 17 / Android 14 JA4 TLS 1.3 fingerprints:
+
+```typescript
+import { InstagramAPI, ThreadsAPI } from "@molkex/instagram-private-api";
+
+// Initialize client with iPhone 15 Pro hardware preset
+const ig = new InstagramAPI({
+  apiKey: "ig_...",
+  devicePreset: "iphone_15_pro"
+});
+
+// Watch active story with paired timestamp beacons
+await ig.story.seen("3141592653589793238_12345");
+
+// Send DM with reaction and link preview card
+await ig.direct.sendMessage({
+  username: "target_founder",
+  text: "Loved your latest breakdown on infrastructure!",
+  linkPreview: "https://example.com/demo"
+});
+
+// Fast Threads keyword search (<80ms)
+const threads = new ThreadsAPI({ apiKey: "ig_..." });
+const { posts } = await threads.search("ai agents", 10);
+for (const p of posts) {
+  console.log(`[${p.author}] (${p.like_count} likes): ${p.text.slice(0, 60)}...`);
+}
 ```
 
 ---
@@ -160,9 +182,15 @@ See [`AGENT_GUIDE.md`](AGENT_GUIDE.md) and [`llms.txt`](llms.txt) for detailed a
 ---
 
 ## Install
-
+ 
+### Python
 ```bash
 pip install instagram-private-api
+```
+
+### TypeScript / Node.js
+```bash
+npm install @molkex/instagram-private-api
 ```
 
 ---

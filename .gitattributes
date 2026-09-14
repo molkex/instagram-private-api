@@ -1,2 +1,6 @@
 *.py linguist-detectable=true
 *.py linguist-language=Python
+*.ts linguist-detectable=true
+*.ts linguist-language=TypeScript
+ts/dist/** linguist-vendored=true
+package-lock.json linguist-vendored=true

@@ -1,0 +1,40 @@
+{
+  "name": "@molkex/instagram-private-api",
+  "version": "2.0.0",
+  "description": "Modern, headless Instagram & Threads Mobile Private API SDK for Node.js and TypeScript. Authentic iOS 17 & Android 14 JA4 TLS 1.3 / HTTP/2 fingerprints.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "commonjs",
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "instagram",
+    "instagram-private-api",
+    "instagram-api",
+    "threads-api",
+    "threads",
+    "anti-detect",
+    "tls-fingerprint",
+    "ja4",
+    "meta",
+    "instagrapi",
+    "dilame-alternative"
+  ],
+  "author": "molkex <molkex@users.noreply.github.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/molkex/instagram-private-api.git",
+    "directory": "ts"
+  },
+  "bugs": {
+    "url": "https://github.com/molkex/instagram-private-api/issues"
+  },
+  "homepage": "https://github.com/molkex/instagram-private-api#readme",
+  "devDependencies": {
+    "@types/node": "^26.5.1",
+    "typescript": "^7.0.2"
+  }
+}
