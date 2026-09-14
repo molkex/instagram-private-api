@@ -1,9 +1,11 @@
-"""Story viewer, highlight discovery, and story interaction endpoints."""
+"""Story viewer, highlight discovery, story interaction, and story downloader endpoints."""
 from __future__ import annotations
+import os
 import time
+import httpx
 
 class StoryModule:
-    """Operations on Instagram Stories and Highlights."""
+    """Operations on Instagram Stories, Highlights, and story media downloads."""
 
     def __init__(self, client):
         self._client = client
@@ -52,3 +54,47 @@ class StoryModule:
             emoji=emoji,
             recipient_id=str(recipient_id),
         )
+
+    def download(self, story_media_id: str | int, output_path: str | None = None) -> dict:
+        """
+        Download story media (video or photo) directly to local file in highest CDN resolution.
+        """
+        info = self._client._get(f"/api/v1/media/{story_media_id}/info/")
+        items = info.get("items", [])
+        if not items:
+            return {"error": "Story item not found or expired"}
+
+        item = items[0]
+        cdn_url = None
+        ext = "jpg"
+        if "video_versions" in item and item["video_versions"]:
+            cdn_url = item["video_versions"][0].get("url")
+            ext = "mp4"
+        elif "image_versions2" in item:
+            candidates = item["image_versions2"].get("candidates", [])
+            if candidates:
+                cdn_url = candidates[0].get("url")
+                ext = "jpg"
+
+        if not cdn_url:
+            return {"error": "No story CDN stream available"}
+
+        result = {
+            "story_id": str(story_media_id),
+            "media_type": "video" if ext == "mp4" else "photo",
+            "url": cdn_url,
+            "ext": ext,
+        }
+
+        if output_path:
+            target_path = output_path
+            if os.path.isdir(target_path):
+                target_path = os.path.join(target_path, f"story_{story_media_id}.{ext}")
+            resp = httpx.get(cdn_url, timeout=30.0)
+            if resp.status_code == 200:
+                with open(target_path, "wb") as f:
+                    f.write(resp.content)
+                result["output_path"] = target_path
+                result["bytes_downloaded"] = len(resp.content)
+
+        return result

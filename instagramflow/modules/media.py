@@ -1,5 +1,7 @@
-"""Media upload, Reels publishing, post interaction, and bookmark endpoints."""
+"""Media upload, Reels publishing, post interaction, bookmark, and media download endpoints."""
 from __future__ import annotations
+import os
+import httpx
 
 _ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
 
@@ -65,6 +67,62 @@ class MediaModule:
         """Post a comment on a media item."""
         data = {"comment_text": text}
         return self._client._post(f"/api/v1/media/{media_id}/comment/", data=data)
+
+    def download(self, media_id_or_code: str | int, output_path: str | None = None) -> dict:
+        """
+        Download photo, carousel item, or Reel in highest available CDN resolution.
+        Accepts numeric media ID or shortcode URL segment (e.g. 'CGgDsi7JQdS').
+        """
+        if isinstance(media_id_or_code, str) and not media_id_or_code.isdigit():
+            clean_code = media_id_or_code.rstrip("/").split("/")[-1]
+            media_id = self.pk_from_code(clean_code)
+        else:
+            media_id = int(media_id_or_code)
+
+        info = self.info(media_id)
+        items = info.get("items", [])
+        if not items:
+            return {"error": "Media item not found or unavailable"}
+
+        item = items[0]
+        media_type = item.get("media_type", 1)  # 1 = photo, 2 = video, 8 = carousel
+
+        cdn_url = None
+        ext = "jpg"
+        if media_type == 2 or "video_versions" in item:
+            video_versions = item.get("video_versions", [])
+            if video_versions:
+                cdn_url = video_versions[0].get("url")
+                ext = "mp4"
+
+        if not cdn_url:
+            image_candidates = item.get("image_versions2", {}).get("candidates", [])
+            if image_candidates:
+                cdn_url = image_candidates[0].get("url")
+                ext = "jpg"
+
+        if not cdn_url:
+            return {"error": "No media CDN stream available"}
+
+        result = {
+            "media_id": str(media_id),
+            "media_type": "video" if ext == "mp4" else "photo",
+            "url": cdn_url,
+            "ext": ext,
+        }
+
+        if output_path:
+            target_path = output_path
+            if os.path.isdir(target_path):
+                target_path = os.path.join(target_path, f"{media_id}.{ext}")
+            resp = httpx.get(cdn_url, timeout=30.0)
+            if resp.status_code == 200:
+                with open(target_path, "wb") as f:
+                    f.write(resp.content)
+                result["output_path"] = target_path
+                result["bytes_downloaded"] = len(resp.content)
+
+        return result
 
     def delete(self, media_id: str | int, media_type: str = "PHOTO") -> dict:
         """Delete an owned media post or clip."""

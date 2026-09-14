@@ -233,6 +233,18 @@ We run this as a managed network service or standalone private daemon: your Pyth
 ### Why switch from Instagrapi or legacy HTTP/1.1 libraries?
 Legacy libraries like Instagrapi rely on outdated mobile app endpoints and generic Python OpenSSL TLS handshakes. Meta's anti-fraud system instantly detects generic cipher ordering, resulting in immediate `challenge_required` or account suspension. Our SDK connects via authentic Android 14 (Pixel 8 Pro) and iOS 17 JA4 TLS 1.3 BoringSSL fingerprints and automatically dispatches native Pigeon/Scribe analytics batches alongside write requests.
 
+### Why does Instagram show "We've detected automated behavior" even at 1 action per hour?
+This common flag (reported in `dilame/instagram-private-api#1776`, `#1818`) is **not caused by request frequency**. It is triggered by network stack fingerprint mismatch: standard Node.js/Python HTTP clients send OpenSSL Client Hello handshakes without GREASE ciphers, and lack mobile Scribe dwell telemetry. Even 1 action per day will get flagged if the TLS fingerprint is detectable. Our signing engine replicates real iPhone 15 Pro / Android 14 BoringSSL handshakes and pair-dispatches telemetry.
+
+### Why do I get "IgLoginBadPasswordError" when the password is 100% correct?
+When Meta detects an unverified TLS signature or outdated device header during the `/api/v1/accounts/login/` flow, it silently rejects the authentication attempt with a disguised `bad_password` or `You can log in with your linked Facebook account` error (see `dilame#1819`). Our SDK's device engine authenticates using genuine hardware attestation profiles.
+
+### Why does the session fail with "403 login_required" after a few requests?
+Modern Meta sessions bind cookies (`sessionid`, `mid`) to a hardware security identifier and carrier state. Making calls without maintaining device consistency triggers session revocation. `SessionStorage` in our SDK serializes both cookies and device state together, preventing invalidation.
+
+### Can I download Reels and Stories in original CDN quality without watermarks?
+Yes. Both Python and TypeScript SDKs provide high-resolution streaming downloaders (`ig.media.download(id_or_code, output_path)` and `ig.story.download(story_id, output_path)`) that fetch pristine source MP4/JPG files directly from Meta's edge CDN.
+
 ### Can I search and reply to Threads discussions without Meta App Review?
 Yes. The official Meta Graph API (`graph.threads.net`) strictly prohibits replying to external threads and requires verified Tech Provider status for search. This SDK connects via native mobile Barcelona endpoints (`x-ig-app-id: 3419628305025917`), enabling wire-speed sub-80ms keyword discovery and direct replies to any public discussion thread.
 

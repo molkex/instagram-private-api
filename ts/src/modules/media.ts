@@ -1,4 +1,6 @@
-/** Media, Reels, shortcodes, and bookmark collection endpoints */
+/** Media, Reels, shortcodes, bookmark collections, and downloader */
+import * as fs from "fs";
+import * as path from "path";
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
 
@@ -67,6 +69,46 @@ export class MediaModule {
 
   public async comment(mediaId: string | number, text: string): Promise<any> {
     return this.client.post(`/api/v1/media/${mediaId}/comment/`, { comment_text: text });
+  }
+
+  public async download(mediaIdOrCode: string | number, outputPath?: string): Promise<any> {
+    let mediaId = String(mediaIdOrCode);
+    if (!/^\d+$/.test(mediaId)) {
+      const cleanCode = mediaId.replace(/\/$/, "").split("/").pop() || mediaId;
+      mediaId = MediaModule.pkFromCode(cleanCode);
+    }
+
+    const info = await this.info(mediaId);
+    const items = info?.items || [];
+    if (!items.length) return { error: "Media item not found" };
+
+    const item = items[0];
+    const isVideo = item.media_type === 2 || !!item.video_versions?.length;
+    let cdnUrl = isVideo ? item.video_versions?.[0]?.url : item.image_versions2?.candidates?.[0]?.url;
+    const ext = isVideo ? "mp4" : "jpg";
+
+    if (!cdnUrl) return { error: "No CDN stream available" };
+
+    const result: Record<string, any> = {
+      media_id: mediaId,
+      media_type: isVideo ? "video" : "photo",
+      url: cdnUrl,
+      ext
+    };
+
+    if (outputPath) {
+      let targetPath = outputPath;
+      if (fs.existsSync(targetPath) && fs.lstatSync(targetPath).isDirectory()) {
+        targetPath = path.join(targetPath, `${mediaId}.${ext}`);
+      }
+      const res = await fetch(cdnUrl);
+      const buffer = Buffer.from(await res.arrayBuffer());
+      fs.writeFileSync(targetPath, buffer);
+      result.output_path = targetPath;
+      result.bytes_downloaded = buffer.length;
+    }
+
+    return result;
   }
 
   public async delete(mediaId: string | number, mediaType: string = "PHOTO"): Promise<any> {

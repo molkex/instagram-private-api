@@ -1,4 +1,6 @@
-/** Story viewer, highlight discovery, and authentic view beacons */
+/** Story viewer, highlight discovery, authentic view beacons, and story downloader */
+import * as fs from "fs";
+import * as path from "path";
 
 export class StoryModule {
   private client: any;
@@ -40,5 +42,39 @@ export class StoryModule {
 
   public async react(storyId: string | number, emoji: string, recipientId: string | number): Promise<any> {
     return this.client.direct.reactToStory(String(storyId), emoji, String(recipientId));
+  }
+
+  public async download(storyMediaId: string | number, outputPath?: string): Promise<any> {
+    const info = await this.client.media.info(storyMediaId);
+    const items = info?.items || [];
+    if (!items.length) return { error: "Story item not found or expired" };
+
+    const item = items[0];
+    const isVideo = !!item.video_versions?.length;
+    let cdnUrl = isVideo ? item.video_versions?.[0]?.url : item.image_versions2?.candidates?.[0]?.url;
+    const ext = isVideo ? "mp4" : "jpg";
+
+    if (!cdnUrl) return { error: "No story stream available" };
+
+    const result: Record<string, any> = {
+      story_id: String(storyMediaId),
+      media_type: isVideo ? "video" : "photo",
+      url: cdnUrl,
+      ext
+    };
+
+    if (outputPath) {
+      let targetPath = outputPath;
+      if (fs.existsSync(targetPath) && fs.lstatSync(targetPath).isDirectory()) {
+        targetPath = path.join(targetPath, `story_${storyMediaId}.${ext}`);
+      }
+      const res = await fetch(cdnUrl);
+      const buffer = Buffer.from(await res.arrayBuffer());
+      fs.writeFileSync(targetPath, buffer);
+      result.output_path = targetPath;
+      result.bytes_downloaded = buffer.length;
+    }
+
+    return result;
   }
 }

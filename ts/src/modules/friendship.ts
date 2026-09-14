@@ -1,4 +1,4 @@
-/** Follow, unfollow, block, and follower pagination endpoints */
+/** Follow, unfollow, block, and Close Friends list endpoints */
 
 export class FriendshipModule {
   private client: any;
@@ -33,5 +33,23 @@ export class FriendshipModule {
     const params: Record<string, string> = {};
     if (maxId) params.max_id = maxId;
     return this.client.get(`/api/v1/friendships/${userId}/following/`, Object.keys(params).length ? params : undefined);
+  }
+
+  public async closeFriendAdd(userId: string | number): Promise<any> {
+    return this.client.post("/api/v1/friendships/set_besties/", {
+      source: "audience_manager",
+      module: "favorites_home_list",
+      add: JSON.stringify([Number(userId)]),
+      remove: JSON.stringify([])
+    });
+  }
+
+  public async closeFriendRemove(userId: string | number): Promise<any> {
+    return this.client.post("/api/v1/friendships/set_besties/", {
+      source: "audience_manager",
+      module: "favorites_home_list",
+      add: JSON.stringify([]),
+      remove: JSON.stringify([Number(userId)])
+    });
   }
 }
