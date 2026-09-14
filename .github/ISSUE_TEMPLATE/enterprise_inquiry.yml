@@ -1,0 +1,39 @@
+name: Enterprise / Commercial Inquiry
+description: Dedicated signing clusters, volume proxy pools, and commercial SLA inquiries
+title: "[Enterprise]: "
+labels: ["enterprise"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For commercial inquiries, custom scrapers, or private signing cluster access:
+        Direct Telegram Contact: [https://t.me/mxmtkchk](https://t.me/mxmtkchk) (@mxmtkchk)
+  - type: input
+    id: company_or_project
+    attributes:
+      label: Company / Project Name
+    validations:
+      required: true
+  - type: dropdown
+    id: volume
+    attributes:
+      label: Estimated Daily Action Volume
+      options:
+        - 1,000 - 10,000 requests/day
+        - 10,000 - 100,000 requests/day
+        - 100,000 - 1,000,000+ requests/day
+    validations:
+      required: true
+  - type: textarea
+    id: requirements
+    attributes:
+      label: Requirements / Use Case Summary
+      description: Describe your target workflows (DM outreach, Reels publishing, real-time scraping, warmup loops).
+    validations:
+      required: true
+  - type: input
+    id: contact_handle
+    attributes:
+      label: Telegram Handle or Preferred Contact
+    validations:
+      required: true

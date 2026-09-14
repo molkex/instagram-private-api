@@ -1,0 +1,23 @@
+name: Feature Request
+description: Suggest an endpoint, module, or improvement
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Suggest a new endpoint or capability for the mobile protocol engine.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or Use Case
+      description: What are you trying to accomplish that is currently difficult or unsupported?
+    validations:
+      required: true
+  - type: textarea
+    id: proposed_solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the ideal API design, endpoint, or behavior.
+    validations:
+      required: true

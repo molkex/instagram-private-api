@@ -1,12 +1,23 @@
 # Security Policy
 
-## Reporting Security Vulnerabilities
+## Supported Versions
 
-We take platform security and privacy seriously. This project is provided for research, reverse engineering, and authorized account automation.
+| Version | Supported |
+|:---|:---|
+| 2.x.x | Yes |
+| 1.x.x | Security fixes only |
 
-If you discover a vulnerability or security issue within the SDK client libraries, please do not open a public issue.
+## Reporting a Vulnerability
 
-Instead, report it directly to:
+We take security and platform integrity seriously. If you discover a vulnerability or security flaw, please do not disclose it publicly in issues.
+
+Instead, please report it via private message:
 - **Telegram**: [@mxmtkchk](https://t.me/mxmtkchk)
+- **Email**: molkex@users.noreply.github.com
 
-We appreciate responsible disclosure and aim to investigate and respond promptly.
+Please provide:
+1. Description of the vulnerability
+2. Steps to reproduce
+3. Potential impact assessment
+
+We will acknowledge receipt within 24 hours and provide a timeline for remediation.

@@ -1,0 +1,51 @@
+name: Bug Report
+description: Report a reproducible bug or unexpected platform response
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing a bug report. Please verify you are using the latest version before submitting.
+  - type: dropdown
+    id: runtime
+    attributes:
+      label: Runtime / Language
+      options:
+        - TypeScript / Node.js
+        - Python
+      multiple: false
+    validations:
+      required: true
+  - type: dropdown
+    id: device_preset
+    attributes:
+      label: Device Preset
+      options:
+        - android_pixel8 (Android 14)
+        - ios_17 (iPhone 15 Pro)
+        - threads_ios
+        - threads_android
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal Code Example
+      description: Provide a minimal code snippet to reproduce the issue.
+      render: typescript
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant Logs / Error Output
+      description: Paste any error messages, HTTP status codes, or stack traces.
+      render: shell

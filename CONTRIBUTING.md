@@ -1,29 +1,32 @@
-# Contributing Guidelines
+# Contributing to instagram-private-api
 
-Thank you for your interest in contributing to `instagram-private-api`.
+Thank you for your interest in contributing to the project. We welcome bug reports, endpoint additions, and documentation improvements.
 
-## Development Setup
+---
 
-### Python Environment
+## Development Guidelines
 
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -e ".[dev]"
-pytest tests/
-```
+### Code Style & Architecture
+- **Python**: Follow PEP 8 guidelines. Type hints are mandatory. Keep dependencies minimal.
+- **TypeScript**: Strict TypeScript mode enabled. All public APIs must have complete `.d.ts` type exports.
+- **No Emojis**: Do not use emojis in code, docstrings, or commit messages.
 
-### TypeScript / Node.js Environment
+### Testing
+- Ensure all Python tests pass before opening a PR:
+  ```bash
+  python -m pytest tests/ -v
+  ```
+- Ensure TypeScript builds with zero compiler errors:
+  ```bash
+  cd ts
+  npm run build
+  ```
 
-```bash
-cd ts
-npm install
-npm run build
-```
+### Pull Request Process
+1. Fork the repository and create your branch from `main`.
+2. Add comprehensive unit tests covering any new endpoints or models.
+3. Keep commits atomic and descriptive following Conventional Commits (`feat:`, `fix:`, `docs:`, `refactor:`).
+4. Submit your pull request with a clear description of the problem solved.
 
-## Guidelines
-
-1. **Strict Mobile Protocol Parity**: All endpoints must match official Meta iOS or Android requests. Do not use legacy web scrapers or unauthenticated endpoints where authenticated mobile endpoints exist.
-2. **Deterministic Typing**: Ensure all Python endpoints expose typed dataclasses and all TypeScript modules compile with zero warnings under `strict: true`.
-3. **No Hardcoded Secrets**: Never commit real session cookies, passwords, or personal API keys.
-4. **Code Style**: Format Python with `black` / `ruff`, TypeScript with standard conventions.
+### Commercial & Enterprise Inquiries
+For private cluster access or custom signing daemons, reach out directly to [@mxmtkchk](https://t.me/mxmtkchk) on Telegram.

@@ -26,11 +26,11 @@ a real logged-in session, not the throttled official API.
 |---|---|---|
 | Developer account / app review | required | **not needed** |
 | Access token permissions | scoped, strict review | **full mobile permissions** |
-| Reading feed, explore, other users | ❌ not exposed | ✅ |
-| Cold direct messaging & outreach | ❌ 24h window for approved pages | ✅ unlimited 1-on-1 & threads |
-| Likes / comments / follows / blocks | ❌ | ✅ |
-| Reels & Carousel publishing | restricted formats & web upload | ✅ native segmented chunked upload |
-| Threads public search & replies | ❌ restricted (Tech Provider only) | ✅ sub-80ms real-time search & reply |
+| Reading feed, explore, other users | No (not exposed) | **Yes** |
+| Cold direct messaging & outreach | No (24h window for approved pages) | **Yes (unlimited 1-on-1 & threads)** |
+| Likes / comments / follows / blocks | No | **Yes** |
+| Reels & Carousel publishing | restricted formats & web upload | **Yes (native segmented chunked upload)** |
+| Threads public search & replies | No (restricted Tech Provider only) | **Yes (sub-80ms real-time search & reply)** |
 | Rate limits | tight, per-app | per-account, mobile-grade |
 
 The official Content Publishing / Graph API only lets you touch *your own* business
@@ -256,6 +256,17 @@ The built-in warmup pipeline executes human-like algorithmic exploration: variab
 
 ### Can I deploy the signing daemon on my own private infrastructure?
 Yes. We offer standalone self-hosted signing daemon packages for high-throughput enterprise platforms and agency clusters who require zero third-party data transmission.
+
+---
+
+## Migration Guides & Architecture
+
+Migrating from older abandoned libraries? Read our comprehensive side-by-side guides:
+- [Migrating from dilame/instagram-private-api (TypeScript / Node.js)](docs/MIGRATION_FROM_DILAME.md) — Fix `IgLoginBadPasswordError`, `checkpoint_required`, and legacy OpenSSL blocks.
+- [Migrating from instagrapi (Python)](docs/MIGRATION_FROM_INSTAGRAPI.md) — Eliminate login loops, proxy burns, and add full Threads support.
+- [Mobile Protocol Architecture](docs/ARCHITECTURE.md) — Deep dive into HTTP/2, JA4 TLS 1.3 BoringSSL, and Pigeon telemetry.
+- [Licensing, Rate Limits & Limits](docs/LICENSING_AND_LIMITS.md) — Safe action velocities and warmup pacing.
+- [Session Storage & Proxy Rotation](docs/SESSIONS_AND_PROXIES.md) — Persistent device cookie serialization.
 
 ---
 
