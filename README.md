@@ -1,5 +1,11 @@
 # instagram-private-api
 
+[![Release](https://img.shields.io/badge/Release-v2.0.0-2563eb.svg)](https://github.com/molkex/instagram-private-api/releases)
+[![Architecture: Pure HTTP/2 Zero-Device](https://img.shields.io/badge/Architecture-Pure--HTTP%2F2%20Zero--Device-0f172a.svg)](#)
+[![Transport: Mobile TLS 1.3 BoringSSL](https://img.shields.io/badge/Transport-Mobile%20TLS%201.3%20BoringSSL-10b981.svg)](#)
+[![Python: >=3.10](https://img.shields.io/badge/Python->=3.10-3776ab.svg)](#)
+[![Telegram Contact](https://img.shields.io/badge/Telegram-@mxmtkchk-229ED9.svg)](https://t.me/mxmtkchk)
+
 **Unofficial Instagram & Threads mobile API SDK for Python.** Talks to the same private
 endpoints the real Android/iOS app uses — feed, profiles, direct messages, media/reels upload,
 friendships, warmup exploration loops, and Threads keyword search/replies — with full request
