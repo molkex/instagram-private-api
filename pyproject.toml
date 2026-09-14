@@ -34,3 +34,6 @@ dependencies = [
 Homepage = "https://t.me/mxmtkchk"
 Repository = "https://github.com/molkex/instagram-private-api"
 Issues = "https://t.me/mxmtkchk"
+
+[project.scripts]
+instagramflow-mcp = "instagramflow.mcp_server:main"

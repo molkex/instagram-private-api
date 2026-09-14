@@ -107,7 +107,42 @@ ig = InstagramAPI(
 
 ---
 
+## AI Agents & Model Context Protocol (MCP)
+
+This SDK is **Agent-Ready** and ships with native MCP server support for autonomous AI workflows (Claude Desktop, Cursor, Windsurf, Devin):
+
+```bash
+# Launch the MCP server via stdio
+python -m instagramflow.mcp_server
+```
+
+Claude Desktop / Cursor config (`mcp.json`):
+```json
+{
+  "mcpServers": {
+    "instagram": {
+      "command": "python3",
+      "args": ["-m", "instagramflow.mcp_server"],
+      "env": {
+        "INSTAGRAM_API_KEY": "ig_live_key"
+      }
+    }
+  }
+}
+```
+
+Available agent tools:
+- `instagram_send_direct_message(username, text, link_preview)`
+- `instagram_run_warmup(feed_scrolls, story_views)`
+- `threads_search_posts(query, limit)`
+- `threads_reply_post(parent_post_id, text)`
+
+See [`AGENT_GUIDE.md`](AGENT_GUIDE.md) and [`llms.txt`](llms.txt) for detailed agent prompting specifications.
+
+---
+
 ## Endpoint modules
+
 
 | Module | What it covers |
 |---|---|
