@@ -149,7 +149,10 @@ See [`AGENT_GUIDE.md`](AGENT_GUIDE.md) and [`llms.txt`](llms.txt) for detailed a
 | `user` | profile self, user info by username/id, bio/avatar update, privacy toggles, external links |
 | `feed` | timeline feed, user feed, explore grid, saved items, location tags, hashtag feed |
 | `direct` | inbox threads, pending requests, send text, typing cadence, link previews, reactions, media |
-| `media` | Reels segmented chunked upload, photo/carousel posting, stories, caption editing, delete |
+| `media` | Reels tab (`user_clips`), shortcode conversion, metadata info, bookmark saves/collections, archive, delete |
+| `comment` | comment lists, child replies thread, post comment, reply to comment, like/unlike, pin/unpin |
+| `story` | active stories tray, timestamped seen beacons, story like/unlike, emoji reactions, direct replies, highlights |
+| `note` | 24-hour direct status notes, mutual/close friends audience, create and delete |
 | `friendship` | follow, unfollow, block, mute, follower/following pagination, relationship status |
 | `warmup` | organic feed scrolling, randomized dwell delays, story viewing, human-like pacing |
 | `threads` | real-time keyword search, nested discussion trees, thread replies, likes, reposts, quotes |

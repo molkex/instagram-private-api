@@ -59,6 +59,31 @@ TOOLS = [
             },
             "required": ["parent_post_id", "text"]
         }
+    },
+    {
+        "name": "instagram_post_comment",
+        "description": "Post a comment or reply to an existing comment on a media post or Reel",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "media_id": {"type": "string", "description": "Target media ID or shortcode"},
+                "text": {"type": "string", "description": "Comment content"}
+            },
+            "required": ["media_id", "text"]
+        }
+    },
+    {
+        "name": "instagram_react_to_story",
+        "description": "Send a fast emoji reaction or view to an active user story",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "story_id": {"type": "string", "description": "Active story media ID"},
+                "emoji": {"type": "string", "description": "Emoji reaction (e.g. 🔥, ❤️, 👏)"},
+                "recipient_id": {"type": "string", "description": "Author user ID"}
+            },
+            "required": ["story_id", "emoji", "recipient_id"]
+        }
     }
 ]
 
@@ -88,6 +113,18 @@ def handle_call_tool(name: str, arguments: dict) -> dict:
         threads = ThreadsAPI(api_key=api_key)
         res = threads.reply(parent_post_id=arguments["parent_post_id"], text=arguments["text"])
         return {"content": [{"type": "text", "text": f"Reply dispatched: {res.get('reply_id')}"}]}
+    elif name == "instagram_post_comment":
+        ig = InstagramAPI(api_key=api_key)
+        res = ig.comment.add(media_id=arguments["media_id"], text=arguments["text"])
+        return {"content": [{"type": "text", "text": f"Comment posted: {res.get('status', 'ok')}"}]}
+    elif name == "instagram_react_to_story":
+        ig = InstagramAPI(api_key=api_key)
+        res = ig.story.react(
+            story_id=arguments["story_id"],
+            emoji=arguments["emoji"],
+            recipient_id=arguments["recipient_id"]
+        )
+        return {"content": [{"type": "text", "text": f"Story reaction sent: {res.get('status', 'ok')}"}]}
     raise ValueError(f"Unknown tool: {name}")
 
 def main():

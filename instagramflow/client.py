@@ -10,6 +10,9 @@ from .modules.direct import DirectModule
 from .modules.media import MediaModule
 from .modules.friendship import FriendshipModule
 from .modules.warmup import WarmupModule
+from .modules.comment import CommentModule
+from .modules.story import StoryModule
+from .modules.note import NoteModule
 
 class InstagramAPI:
     """Headless Instagram Mobile Protocol Client."""
@@ -45,6 +48,9 @@ class InstagramAPI:
         self.media = MediaModule(self)
         self.friendship = FriendshipModule(self)
         self.warmup = WarmupModule(self)
+        self.comment = CommentModule(self)
+        self.story = StoryModule(self)
+        self.note = NoteModule(self)
 
     def _get(self, path: str, params: dict | None = None) -> dict:
         signed = self.signer.sign_request(endpoint=path, method="GET", platform="instagram")
