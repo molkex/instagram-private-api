@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "instagram-private-api"
+version = "1.0.0"
+description = "Unofficial Instagram & Threads mobile API SDK for Python — 60+ endpoints, Android + iOS mobile protocol, zero emulators"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Proprietary" }
+authors = [
+    { name = "molkex" }
+]
+keywords = [
+    "instagram",
+    "instagram-private-api",
+    "instagram-api",
+    "threads",
+    "threads-api",
+    "reverse-engineering",
+    "mobile-api",
+    "http2",
+    "stealth",
+    "tls-fingerprint",
+    "growth-automation"
+]
+dependencies = [
+    "httpx[http2]>=0.27.0",
+    "pydantic>=2.7.0"
+]
+
+[project.urls]
+Homepage = "https://t.me/mxmtkchk"
+Repository = "https://github.com/molkex/instagram-private-api"
+Issues = "https://t.me/mxmtkchk"
