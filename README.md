@@ -1,6 +1,7 @@
 # instagram-private-api
 
 [![Release](https://img.shields.io/badge/Release-v2.0.0-2563eb.svg)](https://github.com/molkex/instagram-private-api/releases)
+[![CI](https://github.com/molkex/instagram-private-api/actions/workflows/ci.yml/badge.svg)](https://github.com/molkex/instagram-private-api/actions)
 [![Architecture: Pure HTTP/2 Zero-Device](https://img.shields.io/badge/Architecture-Pure--HTTP%2F2%20Zero--Device-0f172a.svg)](#)
 [![Transport: Mobile TLS 1.3 BoringSSL](https://img.shields.io/badge/Transport-Mobile%20TLS%201.3%20BoringSSL-10b981.svg)](#)
 [![Python: >=3.10](https://img.shields.io/badge/Python->=3.10-3776ab.svg)](#)
@@ -160,6 +161,18 @@ Available agent tools:
 - `threads_reply_post(parent_post_id, text)`
 
 See [`AGENT_GUIDE.md`](AGENT_GUIDE.md) and [`llms.txt`](llms.txt) for detailed agent prompting specifications.
+
+---
+
+## Documentation & Specifications
+
+Comprehensive deep-dives into mobile protocols, fingerprinting, and session management:
+
+- **[Architecture & Anti-Fraud Engine](docs/ARCHITECTURE.md)** — JA4 TLS 1.3 BoringSSL vs OpenSSL, HTTP/2 pseudo-header sequencing, `signed_body` HMAC-SHA256, and Pigeon/Scribe telemetry.
+- **[Free Tier vs Commercial Licensing](docs/LICENSING_AND_LIMITS.md)** — Capabilities matrix, why write actions require signing, and enterprise daemon licensing.
+- **[Sessions, Proxies & Best Practices](docs/SESSIONS_AND_PROXIES.md)** — Cookie serialization, residential 4G/5G mobile proxies, and avoiding checkpoint flags.
+- **[AI Agents & MCP Guide](AGENT_GUIDE.md)** — Model Context Protocol (MCP) server setup for Claude Desktop, Cursor, and autonomous agents.
+- **[Machine-Readable Manifest](llms.txt)** — Index specification for LLM crawlers.
 
 ---
 
