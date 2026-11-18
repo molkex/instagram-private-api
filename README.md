@@ -277,24 +277,21 @@ Migrating from older abandoned libraries? Read our comprehensive side-by-side gu
 
 ---
 
-## Pricing — four ways in
+## Get a key — free
 
-| Tier | What's included | Price |
-|---|---|---|
-| **Free / community** | Public profile & media reads, timeline feed, device catalog, default 1,000 req/s key | **$0** — `/key` in [@ig_private_api_bot](https://t.me/ig_private_api_bot) |
-| **Commercial key** | Unlimited DMs, story seen & reactions, comments, Threads search & replies, BoringSSL handshakes, Pigeon/Scribe telemetry | **Price list on request** — one message to [@mxmtkchk](https://t.me/mxmtkchk) |
-| **Cluster / agency** | High-concurrency multi-account license, dedicated signing endpoints, priority SLA | **Quoted per volume** |
-| **Self-hosted daemon** | Dockerized signer on your own infra (`127.0.0.1:8643`), zero third-party traffic | **Quoted per deployment** |
+| | |
+|---|---|
+| **Key** | one free key per Telegram user |
+| **Where** | `/key` in [@ig_private_api_bot](https://t.me/ig_private_api_bot) |
+| **Cost** | **$0** — no card, no call, no waitlist |
+| **Limits** | default 1,000 req/s, burst 5,000, per key |
+| **Rotate / revoke** | `/rotate` and `/revoke` in the same bot |
+| **Your usage** | `/stats` — last 7 days, requests and top endpoints for your key |
 
-Ask for the price list and you get tiers, limits and payment methods back in one message — no discovery calls.
-Payment: USDT (TRC-20), crypto, wire. Free tier needs no card and no call.
-
----
-
-## Get access
-
-API keys, private signing daemon deployment, pricing plans, and custom high-volume setups:
-**[@mxmtkchk](https://t.me/mxmtkchk)** on Telegram.
+The key is free and there is no public price list. We do watch usage per key (volume,
+endpoint mix) — that is how the free tier stays free and what tells us what to build next.
+Custom volumes, private signer deployments and agency clusters are discussed
+individually in Telegram: **[@mxmtkchk](https://t.me/mxmtkchk)**.
 
 ---
 

@@ -2,6 +2,11 @@
 
 This SDK is engineered for professional developers, SaaS platforms, AI agent builders, and agencies requiring scalable Instagram and Threads automation.
 
+> **Today the only public tier is the free key** — one per Telegram user, via `/key` in
+> [@ig_private_api_bot](https://t.me/ig_private_api_bot). There is no public price list and
+> nothing to buy on this page: the "Commercial / Enterprise" column below describes what a
+> negotiated arrangement can include, discussed individually in Telegram.
+
 ---
 
 ## Tier Comparison Matrix
@@ -34,14 +39,12 @@ Our signing engine bridges this gap by generating authentic signatures and runni
 
 ---
 
-## Obtaining a Commercial License or Self-Hosted Daemon
+## Getting a Key
 
-For API keys, custom quotas, agency clusters, or self-hosted standalone signing daemon packages:
-
-- **Contact**: [@mxmtkchk](https://t.me/mxmtkchk) on Telegram
-- **Free tier**: `/key` in [@ig_private_api_bot](https://t.me/ig_private_api_bot) — no card, no call
-- **Price list**: sent in one message on request (tiers, limits, payment methods) — no discovery calls
-- **Payment Methods**: USDT (TRC-20), Crypto, Wire
+- **Free key**: `/key` in [@ig_private_api_bot](https://t.me/ig_private_api_bot) — one per Telegram user, no card, no call
+- **Your own usage**: `/stats` in the same bot — requests and top endpoints, last 7 days
+- **Rotate / revoke**: `/rotate` and `/revoke` in the same bot
+- **Non-standard volumes, private daemon, agency clusters**: [@mxmtkchk](https://t.me/mxmtkchk) on Telegram — discussed individually, there is no public price list
 - **Response Time**: Usually under 1 hour
 
 Included with enterprise access:
