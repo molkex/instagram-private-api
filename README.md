@@ -8,6 +8,10 @@
 [![TypeScript / Node.js](https://img.shields.io/badge/TypeScript%20%2F%20Node.js-v2.0.0-3178c6.svg)](#)
 [![Telegram Contact](https://img.shields.io/badge/Telegram-@mxmtkchk-229ED9.svg)](https://t.me/mxmtkchk)
 
+> **Status (2026-11-18):** reads and writes — DMs, likes, comments, posts, Threads replies — work headless on an
+> existing session. Known wall: fresh-account registration survival (anti-abuse). Not bundled: an inbox
+> auto-responder. Full honest matrix → [`STATUS.md`](STATUS.md).
+
 **Unofficial Instagram & Threads mobile API SDK for Python & TypeScript / Node.js.** Talks to the same private
 endpoints the real Android/iOS app uses — feed, profiles, direct messages, media/reels upload,
 friendships, warmup exploration loops, and Threads keyword search/replies — with full request
@@ -248,6 +252,9 @@ Yes. Both Python and TypeScript SDKs provide high-resolution streaming downloade
 ### Can I search and reply to Threads discussions without Meta App Review?
 Yes. The official Meta Graph API (`graph.threads.net`) strictly prohibits replying to external threads and requires verified Tech Provider status for search. This SDK connects via native mobile Barcelona endpoints (`x-ig-app-id: 3419628305025917`), enabling wire-speed sub-80ms keyword discovery and direct replies to any public discussion thread.
 
+### Can it auto-reply to direct messages?
+Yes — the SDK sends the reply, you own the trigger. `ig.direct.reply_to_message(thread_id, item_id, text)` answers a specific incoming message, `ig.direct.send_message()` opens a new one, and `ig.direct.inbox()` / `ig.direct.thread(thread_id)` return what to react to. There is no hidden inbox watcher or keyword bot in the box: you poll the inbox (or point the MCP server at your agent) and call `reply_to_message` — a few lines of loop, no extra service. Replies are writes like any other, so they go out on your session with the same pacing rules.
+
 ### What server resources are required to scale to 100+ accounts?
 Under 280 MB of RAM. Unlike browser automation tools (Selenium, Playwright, Puppeteer) that demand 20–40 GB of RAM and dedicated GPUs for 100 accounts, our pure HTTP/2 zero-device architecture runs hundreds of concurrent accounts smoothly on a standard $10/month cloud VPS.
 
@@ -267,6 +274,20 @@ Migrating from older abandoned libraries? Read our comprehensive side-by-side gu
 - [Mobile Protocol Architecture](docs/ARCHITECTURE.md) — Deep dive into HTTP/2, JA4 TLS 1.3 BoringSSL, and Pigeon telemetry.
 - [Licensing, Rate Limits & Limits](docs/LICENSING_AND_LIMITS.md) — Safe action velocities and warmup pacing.
 - [Session Storage & Proxy Rotation](docs/SESSIONS_AND_PROXIES.md) — Persistent device cookie serialization.
+
+---
+
+## Pricing — four ways in
+
+| Tier | What's included | Price |
+|---|---|---|
+| **Free / community** | Public profile & media reads, timeline feed, device catalog, default 1,000 req/s key | **$0** — `/key` in [@ig_private_api_bot](https://t.me/ig_private_api_bot) |
+| **Commercial key** | Unlimited DMs, story seen & reactions, comments, Threads search & replies, BoringSSL handshakes, Pigeon/Scribe telemetry | **Price list on request** — one message to [@mxmtkchk](https://t.me/mxmtkchk) |
+| **Cluster / agency** | High-concurrency multi-account license, dedicated signing endpoints, priority SLA | **Quoted per volume** |
+| **Self-hosted daemon** | Dockerized signer on your own infra (`127.0.0.1:8643`), zero third-party traffic | **Quoted per deployment** |
+
+Ask for the price list and you get tiers, limits and payment methods back in one message — no discovery calls.
+Payment: USDT (TRC-20), crypto, wire. Free tier needs no card and no call.
 
 ---
 

@@ -39,6 +39,8 @@ Our signing engine bridges this gap by generating authentic signatures and runni
 For API keys, custom quotas, agency clusters, or self-hosted standalone signing daemon packages:
 
 - **Contact**: [@mxmtkchk](https://t.me/mxmtkchk) on Telegram
+- **Free tier**: `/key` in [@ig_private_api_bot](https://t.me/ig_private_api_bot) — no card, no call
+- **Price list**: sent in one message on request (tiers, limits, payment methods) — no discovery calls
 - **Payment Methods**: USDT (TRC-20), Crypto, Wire
 - **Response Time**: Usually under 1 hour
 

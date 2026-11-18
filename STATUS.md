@@ -1,7 +1,7 @@
 # Status — what works
 
 Honest capability matrix for **instagram-private-api** (Instagram + Threads).
-Updated 2026-10-21.
+Updated 2026-11-18.
 
 **Legend**
 - ✅ **Headless** — works over pure HTTP with just a session, no phone, no emulator.
@@ -37,6 +37,14 @@ Updated 2026-10-21.
 Unlike device-bound stacks, Instagram operations on a logged-in account do not
 need a real device — a valid `sessionid` / `Authorization: Bearer` is enough and
 the writes stick.
+
+## DM replies & auto-responder
+
+| Action | Status | Note |
+|---|---|---|
+| Reply to a specific incoming DM | ✅ | `direct.reply_to_message(thread_id, item_id, text)` |
+| Read inbox / thread | ✅ | `direct.inbox()`, `direct.thread(thread_id)` |
+| Built-in auto-responder (watch inbox → reply automatically) | ❌ | not in core: poll the inbox and call `reply_to_message`, or drive it through the MCP server |
 
 ## Account lifecycle
 
