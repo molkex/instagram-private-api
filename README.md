@@ -59,11 +59,32 @@ so it does what the real mobile app does.
 
 Request signing runs on our hosted service or high-throughput signing daemon — you just need an API key. No emulators, no Android ADB bridges, no local signing setup to maintain.
 
+### 60-second check
+
+Prove the key works before reading anything else. No SDK, no install — one request:
+
+```bash
+export SIGN_URL="http://127.0.0.1:8643"   # endpoint that came with your key
+export IG_KEY="ig_..."                    # /key in @ig_private_api_bot
+
+curl -sS "$SIGN_URL/v1/sign" \
+  -H "Authorization: Bearer $IG_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"endpoint":"/api/v1/feed/timeline/","method":"GET","body":{},"platform":"instagram"}'
+```
+
+| Response | Meaning |
+|---|---|
+| `200` + JSON with `headers` and `signed_body` | key works — the hard part is done, everything below reuses this path |
+| `403 {"detail":"invalid or revoked API key"}` | wrong key or it was revoked — `/rotate` in the bot mints a new one |
+| `403 {"detail":"API key required ..."}` | header is missing: send it as `Authorization: Bearer <key>` |
+| `429` | per-key rate limit — slow down, the limit is 1,000 req/s |
+
 ```python
 from instagramflow import InstagramAPI, ThreadsAPI
 
 # Initialize Instagram client
-ig = InstagramAPI(api_key="ig_...")      # get a key — see "Get access" below
+ig = InstagramAPI(api_key="ig_...")      # get a key — see "Get a key — free" below
 
 # Inspect account profile
 me = ig.user.profile_self()
