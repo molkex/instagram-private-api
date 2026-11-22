@@ -8,9 +8,15 @@
 [![TypeScript / Node.js](https://img.shields.io/badge/TypeScript%20%2F%20Node.js-v2.0.0-3178c6.svg)](#)
 [![Telegram Contact](https://img.shields.io/badge/Telegram-@mxmtkchk-229ED9.svg)](https://t.me/mxmtkchk)
 
-> **Status (2026-11-18):** reads and writes — DMs, likes, comments, posts, Threads replies — work headless on an
-> existing session. Known wall: fresh-account registration survival (anti-abuse). Not bundled: an inbox
-> auto-responder. Full honest matrix → [`STATUS.md`](STATUS.md).
+> **Status (2026-11-22) — Free during beta:** no paid plans right now — grab a free key via
+> [@ig_private_api_bot](https://t.me/ig_private_api_bot) (`/key`). Runs on **Linux / macOS / Windows**
+> (Python >=3.10 or Node.js, zero emulators). Reads and writes — DMs, likes, comments, posts, Threads
+> replies — work headless on an existing session. Known wall: fresh-account registration survival
+> (anti-abuse). Not bundled: an inbox auto-responder. Full honest matrix → [`STATUS.md`](STATUS.md).
+>
+> **Ecosystem:** [instagram-private-api](https://github.com/molkex/instagram-private-api) ·
+> [threads-private-api](https://github.com/molkex/threads-private-api) ·
+> [tiktok-private-api](https://github.com/molkex/tiktok-private-api)
 
 **Unofficial Instagram & Threads mobile API SDK for Python & TypeScript / Node.js.** Talks to the same private
 endpoints the real Android/iOS app uses — feed, profiles, direct messages, media/reels upload,
