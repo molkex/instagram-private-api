@@ -2,6 +2,10 @@
 from __future__ import annotations
 
 import httpx
+try:
+    from curl_cffi.requests import Session as _CurlSession
+except ImportError:  # pragma: no cover - fallback when curl_cffi is not installed
+    _CurlSession = None
 from .remote_signer import DEFAULT_SIGN_URL, RemoteSigner
 from .errors import InstagramError, AuthError, RateLimitError, ServerError
 from .modules.user import UserModule
@@ -35,11 +39,16 @@ class InstagramAPI:
         self.device_preset = device_preset
         self.signer = RemoteSigner(signing_server, api_key, device_preset=device_preset)
 
-        client_kwargs = {"timeout": timeout}
-        if proxy:
-            client_kwargs["proxy"] = proxy
-
-        self._http = httpx.Client(**client_kwargs)
+        if _CurlSession is not None:
+            curl_kwargs = {"impersonate": "chrome", "timeout": timeout}
+            if proxy:
+                curl_kwargs["proxies"] = {"http": proxy, "https": proxy}
+            self._http = _CurlSession(**curl_kwargs)
+        else:
+            client_kwargs = {"timeout": timeout}
+            if proxy:
+                client_kwargs["proxy"] = proxy
+            self._http = httpx.Client(**client_kwargs)
 
         # Initialize submodules
         self.user = UserModule(self)
