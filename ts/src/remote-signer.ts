@@ -2,12 +2,15 @@
 import { SignedRequestResponse } from "./types";
 import { ServerError, AuthError } from "./errors";
 
+export const DEFAULT_SIGN_URL =
+  (typeof process !== "undefined" && process.env?.SIGN_URL) || "https://sign.54-38-243-162.nip.io";
+
 export class RemoteSigner {
   private signingServer: string;
   private apiKey: string;
   private devicePreset: string;
 
-  constructor(signingServer: string = "http://127.0.0.1:8643", apiKey: string = "", devicePreset: string = "iphone_15_pro") {
+  constructor(signingServer: string = DEFAULT_SIGN_URL, apiKey: string = "", devicePreset: string = "iphone_15_pro") {
     this.signingServer = signingServer.replace(/\/$/, "");
     this.apiKey = apiKey;
     this.devicePreset = devicePreset;
@@ -31,7 +34,10 @@ export class RemoteSigner {
     try {
       const res = await fetch(`${this.signingServer}/v1/sign`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(this.apiKey ? { Authorization: `Bearer ${this.apiKey}`, "X-API-Key": this.apiKey } : {}),
+        },
         body: JSON.stringify(payload)
       });
 

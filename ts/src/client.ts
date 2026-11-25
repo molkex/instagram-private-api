@@ -1,6 +1,6 @@
 /** Headless Instagram Mobile Protocol Client for TypeScript / Node.js */
 import { InstagramClientOptions } from "./types";
-import { RemoteSigner } from "./remote-signer";
+import { DEFAULT_SIGN_URL, RemoteSigner } from "./remote-signer";
 import { AuthError, RateLimitError, ServerError } from "./errors";
 import { UserModule } from "./modules/user";
 import { FeedModule } from "./modules/feed";
@@ -33,7 +33,7 @@ export class InstagramAPI {
     this.apiKey = options.apiKey;
     this.sessionToken = options.sessionToken;
     this.signer = new RemoteSigner(
-      options.signingServer || "http://127.0.0.1:8643",
+      options.signingServer || DEFAULT_SIGN_URL,
       this.apiKey,
       options.devicePreset || "iphone_15_pro"
     );

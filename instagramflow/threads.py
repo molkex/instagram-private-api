@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import httpx
 from pydantic import BaseModel
-from .remote_signer import RemoteSigner
+from .remote_signer import DEFAULT_SIGN_URL, RemoteSigner
 from .errors import RateLimitError, AuthError
 
 class ThreadPost(BaseModel):
@@ -29,7 +29,7 @@ class ThreadsAPI:
         api_key: str,
         *,
         session_token: str | None = None,
-        signing_server: str = "http://127.0.0.1:8643",
+        signing_server: str = DEFAULT_SIGN_URL,
         proxy: str | None = None,
         timeout: float = 12.0,
     ):
