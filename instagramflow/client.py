@@ -80,6 +80,42 @@ class InstagramAPI:
         resp = self._http.post(f"{self.BASE_URL}{path}", data=payload, headers=headers)
         return self._handle_response(resp)
 
+    def _rupload_photo(self, photo_path_or_bytes) -> str:
+        """Upload raw JPEG bytes to rupload_igphoto and return upload_id."""
+        import json as _json
+        import random as _random
+        import time as _time
+        import uuid as _uuid
+        from pathlib import Path
+
+        data = Path(photo_path_or_bytes).read_bytes() if isinstance(photo_path_or_bytes, (str, Path)) else photo_path_or_bytes
+        upload_id = str(int(_time.time() * 1000))
+        name = f"{upload_id}_0_{_random.randint(1000000000, 9999999999)}"
+        path = f"/rupload_igphoto/{name}"
+        signed = self.signer.sign_request(endpoint=path, method="POST", platform="instagram")
+        headers = signed.get("headers", {})
+        if self.session_token:
+            headers["Authorization"] = f"Bearer {self.session_token}"
+        headers.update({
+            "X-Instagram-Rupload-Params": _json.dumps({
+                "upload_id": upload_id,
+                "media_type": "1",
+                "retry_context": _json.dumps({"num_step_auto_retry": 0, "num_reupload": 0, "num_step_manual_retry": 0}),
+                "image_compression": _json.dumps({"lib_name": "moz", "lib_version": "3.1.m", "quality": "80"}),
+                "xsharing_user_ids": "[]",
+            }),
+            "X-Entity-Type": "image/jpeg",
+            "X-Entity-Name": name,
+            "X-Entity-Length": str(len(data)),
+            "X_FB_PHOTO_WATERFALL_ID": str(_uuid.uuid4()),
+            "Offset": "0",
+            "Content-Type": "application/octet-stream",
+        })
+        kw = {"content": data} if isinstance(self._http, httpx.Client) else {"data": data}
+        resp = self._http.post(f"{self.BASE_URL}{path}", headers=headers, **kw)
+        self._handle_response(resp)
+        return upload_id
+
     def _handle_response(self, resp: httpx.Response) -> dict:
         if resp.status_code == 429:
             raise RateLimitError("Rate limit encountered on Instagram mobile endpoint.")

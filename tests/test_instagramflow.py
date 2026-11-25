@@ -220,3 +220,29 @@ def test_media_and_story_download_links():
     story_dl = story.download(111)
     assert story_dl["url"] == "https://cdn.example.com/video.mp4"
     assert story_dl["ext"] == "mp4"
+
+
+def test_profile_pfp_pin_and_upload_photo(monkeypatch):
+    from instagramflow import InstagramAPI
+    calls = []
+
+    class DummyResp:
+        status_code = 200
+        text = '{"status":"ok"}'
+        def json(self):
+            return {"status": "ok"}
+
+    ig = InstagramAPI(api_key="ig_test", session_token="IGT:2:abc")
+    monkeypatch.setattr(ig.signer, "sign_request", lambda **kw: {"headers": {"X-IG-App-ID": "936619743392459"}, "signed_body": "SIGNATURE.{}"})
+    monkeypatch.setattr(ig._http, "post", lambda url, **kw: calls.append(url) or DummyResp())
+
+    ig.user.change_profile_picture(b"\xff\xd8\xff\xe0test")
+    ig.media.upload_photo(b"\xff\xd8\xff\xe0test", caption="hi")
+    ig.media.pin_to_profile("123456")
+    ig.media.unpin_from_profile("123456")
+
+    assert any("/rupload_igphoto/" in u for u in calls)
+    assert any("/accounts/change_profile_picture/" in u for u in calls)
+    assert any("/media/configure/" in u for u in calls)
+    assert any("/media/123456/pin_timeline_media/" in u for u in calls)
+    assert any("/media/123456/unpin_timeline_media/" in u for u in calls)

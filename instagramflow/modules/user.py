@@ -23,3 +23,15 @@ class UserModule:
         if external_url:
             data["external_url"] = external_url
         return self._client._post("/api/v1/accounts/set_biography/", data=data)
+
+    def change_profile_picture(self, photo_path_or_bytes) -> dict:
+        """Upload a JPEG photo and set it as the account profile picture."""
+        upload_id = self._client._rupload_photo(photo_path_or_bytes)
+        return self._client._post(
+            "/api/v1/accounts/change_profile_picture/",
+            data={"use_fbuploader": "true", "upload_id": upload_id},
+        )
+
+    def remove_profile_picture(self) -> dict:
+        """Remove current profile picture."""
+        return self._client._post("/api/v1/accounts/remove_profile_picture/", data={})

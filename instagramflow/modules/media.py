@@ -152,3 +152,22 @@ class MediaModule:
             "source_type": "4",
         }
         return self._client._post("/api/v1/media/configure/", data=data)
+
+    def upload_photo(self, photo_path_or_bytes, caption: str = "") -> dict:
+        """Upload a JPEG photo (file path or bytes) and publish it to the timeline."""
+        upload_id = self._client._rupload_photo(photo_path_or_bytes)
+        return self.configure_timeline_photo(upload_id, caption=caption)
+
+    def pin_to_profile(self, media_id: str | int) -> dict:
+        """Pin an owned post/reel to the top of the profile grid."""
+        return self._client._post(
+            f"/api/v1/media/{media_id}/pin_timeline_media/",
+            data={"media_id": str(media_id)},
+        )
+
+    def unpin_from_profile(self, media_id: str | int) -> dict:
+        """Unpin a post/reel from the top of the profile grid."""
+        return self._client._post(
+            f"/api/v1/media/{media_id}/unpin_timeline_media/",
+            data={"media_id": str(media_id)},
+        )
