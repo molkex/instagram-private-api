@@ -8,15 +8,19 @@ Usage:
 from __future__ import annotations
 
 import base64
+import os
 import httpx
 from .errors import AuthError, RateLimitError, ServerError
+
+DEFAULT_SIGN_URL = os.environ.get("SIGN_URL", "https://sign.54-38-243-162.nip.io")
+
 
 class RemoteSigner:
     """Manages remote cryptographic signing and JA4 TLS 1.3 mobile emulation."""
 
     def __init__(
         self,
-        server_url: str = "http://127.0.0.1:8643",
+        server_url: str = DEFAULT_SIGN_URL,
         api_key: str = "",
         *,
         timeout: float = 8.0,
@@ -28,6 +32,7 @@ class RemoteSigner:
         self._client = httpx.Client(
             timeout=timeout,
             headers={
+                "Authorization": f"Bearer {api_key}",
                 "X-API-Key": api_key,
                 "Content-Type": "application/json",
             },

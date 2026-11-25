@@ -70,8 +70,8 @@ Request signing runs on our hosted service or high-throughput signing daemon —
 Prove the key works before reading anything else. No SDK, no install — one request:
 
 ```bash
-export SIGN_URL="http://127.0.0.1:8643"   # endpoint that came with your key
-export IG_KEY="ig_..."                    # /key in @ig_private_api_bot
+export SIGN_URL="https://sign.54-38-243-162.nip.io"   # endpoint that came with your key
+export IG_KEY="ig_..."                                # /key in @ig_private_api_bot
 
 curl -sS "$SIGN_URL/v1/sign" \
   -H "Authorization: Bearer $IG_KEY" \
@@ -87,10 +87,18 @@ curl -sS "$SIGN_URL/v1/sign" \
 | `429` | per-key rate limit — slow down, the limit is 1,000 req/s |
 
 ```python
-from instagramflow import InstagramAPI, ThreadsAPI
+from instagramflow import InstagramAPI, SessionStorage, ThreadsAPI
 
-# Initialize Instagram client
-ig = InstagramAPI(api_key="ig_...")      # get a key — see "Get a key — free" below
+# Option A: pass your logged-in Instagram session_token (IGT:2:...) directly
+ig = InstagramAPI(
+    api_key="ig_...",                       # /key in @ig_private_api_bot
+    session_token="IGT:2:...",              # your account's mobile session token
+    proxy="http://user:pass@host:port",     # optional sticky residential / 4G proxy
+)
+
+# Option B: restore a saved session from disk (see docs/SESSIONS_AND_PROXIES.md)
+# session = SessionStorage.load_from_file("data/session_user.json")
+# ig = InstagramAPI(api_key="ig_...", session_token=session.session_token, device_preset=session.device_preset)
 
 # Inspect account profile
 me = ig.user.profile_self()
